@@ -20,49 +20,109 @@ Term: 0313
         <meta name="HandheldFriendly" content="True">
         <meta name="MobileOptimized" content="320"/>
 
-        <!-- jQuery and jQuery Mobile Content -->
-        <link rel="stylesheet" href="css/workganize.min.css" />
-        <link rel="stylesheet" href="http://code.jquery.com/mobile/latest/jquery.mobile.structure.min.css" />
-        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-        <script src="http://code.jquery.com/mobile/latest/jquery.mobile.min.js"></script>
-
-        <!-- jQuery Add-Ons -->
-        <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.0/jquery.validate.min.js"></script>
-
         <!-- Page Title -->
         <title> WOrkganize </title>
 
     </head>
     <body>
-        <!-- Home Page -->
-        <div data-role="page" id="home">
-            <div data-role="header" style="text-align: center;" data-position="fixed" data-id="mainhead">
-                <a href="#home"><img src="img/logo.png" /></a>
-            </div>
-            <div data-role="content">
-                <a href="#additem"><img src="img/CTA.png" style="width: 100%; margin-bottom: 20px;"/></a>
+
+        <section id="home" data-role="page">
+
+            <header>
+                <h1>WOrganize</h1>
+                <p>A simple way to Organize</p>
+            </header>
+
+            <section>
                 <div>
-                    <ul data-inset="true" data-role="listview" role="listbox" data-filter="true">
-                        <li data-role="list-divider">Browse</li>
-                        <li>
-                            <a data-transition="slide" href="#additem">Add Jobs</a>
-                        </li>
-                        <li>
-                            <a data-transition="slide" href="#display">Display Jobs</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div data-role="footer" data-position="fixed" data-id="mainfoot">
-                <div data-role="navbar">
                     <ul>
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#newstream">QuickE</a></li>
-                        <li><a href="#about">About</a></li>
+                        <li>Browse</li>
+                        <li>
+                            <a href="#additem">Add Jobs</a>
+                        </li>
+                        <li>
+                            <a href="#disitem">Display Jobs</a>
+                        </li>
                     </ul>
                 </div>
-            </div>
-        </div>
+            </section>
+
+            <footer>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#newstream">Quick View</a></li>
+                    <li><a href="#about">About</a></li>
+                </ul>
+            </footer>
+
+        </section>
+
+        <section id="additem" data-role="page">
+            <header>
+                <h1>Add Jobs</h1>
+            </header>
+
+            <section>
+                <fieldset>
+                    <ul>
+                        <li>
+                            <label for="location">Where is the Job Located?</label>
+                            <input type="text" id="location"/>
+                        </li>
+                        <li>
+                            <label for="notes">What Type of Work is it?</label>
+                        </li>
+                        <li>
+                            <label>What is the Priority?</label>
+                            <input type="radio" value="High" id="high" name="priority" /><label for="high">High</label>
+                            <input type="radio" checked value="Medium" id="medium" name="priority" /><label for="medium">Medium</label>
+                            <input type="radio" value="Low" id="low" name="priority" /><label for="low">Low</label>
+                        </li>
+                        <li>
+                            <label for="people">How many Workers to send?</label>
+                            <input type="range" id="people" min="1" max="5" name="workersToSend" />
+                        </li>
+                        <li>
+                            <label for="finishby">When to Finish?</label>
+                            <input type="date" name="finishBy" id="finishby" />
+                        </li>
+                        <li>
+                            <label for="notes">Notes for Job</label>
+                            <textarea id="notes" placeholder="Put any important Job Information here!"></textarea>
+                        </li>
+                    </ul>
+                </fieldset>
+            </section>
+
+            <footer>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#newstream">Quick View</a></li>
+                    <li><a href="#about">About</a></li>
+                </ul>
+            </footer>
+        </section>
+
+        <section id="disitem" data-role="page">
+            <header>
+                <h1>Display Jobs</h1>
+            </header>
+
+            <section>
+                // Information will be dynamically generated through JS
+                <ul>
+
+                </ul>
+            </section>
+
+            <footer>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#newstream">Quick View</a></li>
+                    <li><a href="#about">About</a></li>
+                </ul>
+            </footer>
+        </section>
 
         <!-- JavaScript -->
         <script src="js/json.js" type="text/javascript"></script>
