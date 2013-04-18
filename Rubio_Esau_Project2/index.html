@@ -1,0 +1,131 @@
+<!doctype html>
+
+<!--
+ASDI
+Project 1: WOrKganize
+Author: Esau Rubio
+Term: 0313
+-->
+
+<html>
+    <head>
+        <!-- Character set and Other Search Engine Optimizations -->
+        <meta charset="utf-8" />
+        <meta name="description" content="Work Organizer for small to medium sized businesses." />
+        <meta name="keyword" content="Work, Organizer, Simple" />
+        <meta name="robots" content="index, follow" />
+        <meta name="viewport" content="user-scalable=no, width=device-width">
+
+        <!-- Handheld specifications -->
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320"/>
+
+        <!-- jQuery and jQuery Mobile Content -->
+        <link rel="stylesheet" href="css/workganize.min.css" />
+        <link rel="stylesheet" href="http://code.jquery.com/mobile/latest/jquery.mobile.structure.min.css" />
+        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script src="http://code.jquery.com/mobile/latest/jquery.mobile.min.js"></script>
+
+        <!-- Page Title -->
+        <title> WOrKganize </title>
+
+    </head>
+    <body>
+
+        <section id="home" data-role="page">
+
+            <header>
+                <h1>WOrganize</h1>
+                <p>A simple way to Organize</p>
+            </header>
+
+            <section>
+                <div>
+                    <ul>
+                        <li>Browse</li>
+                        <li>
+                            <a href="#additem">Add Jobs</a>
+                        </li>
+                        <li>
+                            <a href="#disitem">Display Jobs</a>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <footer>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                </ul>
+            </footer>
+
+        </section>
+
+        <section id="additem" data-role="page">
+            <header>
+                <h1>Add Jobs</h1>
+            </header>
+
+            <section>
+                <fieldset>
+                    <ul>
+                        <li>
+                            <label for="location">Where is the Job Located?</label>
+                            <input type="text" id="location"/>
+                        </li>
+                        <li>
+                            <label for="notes">What Type of Work is it?</label>
+                        </li>
+                        <li>
+                            <label>What is the Priority?</label>
+                            <input type="radio" value="High" id="high" name="priority" /><label for="high">High</label>
+                            <input type="radio" checked value="Medium" id="medium" name="priority" /><label for="medium">Medium</label>
+                            <input type="radio" value="Low" id="low" name="priority" /><label for="low">Low</label>
+                        </li>
+                        <li>
+                            <label for="people">How many Workers to send?</label>
+                            <input type="range" id="people" min="1" max="5" name="workersToSend" />
+                        </li>
+                        <li>
+                            <label for="finishby">When to Finish?</label>
+                            <input type="date" name="finishBy" id="finishby" />
+                        </li>
+                        <li>
+                            <label for="notes">Notes for Job</label>
+                            <textarea id="notes" placeholder="Put any important Job Information here!"></textarea>
+                        </li>
+                    </ul>
+                </fieldset>
+            </section>
+
+            <footer>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                </ul>
+            </footer>
+        </section>
+
+        <section id="disitem" data-role="page">
+            <header>
+                <h1>Display Jobs</h1>
+            </header>
+
+            <section>
+                // Information will be dynamically generated through JS
+                <ul>
+
+                </ul>
+            </section>
+
+            <footer>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                </ul>
+            </footer>
+        </section>
+
+        <!-- JavaScript -->
+        <script src="js/json.js" type="text/javascript"></script>
+        <script src="js/main.js" type="text/javascript"></script>
+    </body>
+</html>
