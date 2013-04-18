@@ -38,9 +38,10 @@ Term: 0313
         <div id="home" data-role="page">
 
             <div data-role="header" style="text-align: center;" data-position="fixed" data-id="mainhead">
-                <h1>WOrKganize</h1>
+                <img style="margin-top: 10px; margin-bottom: 5px;" src="img/logo.png"/>
             </div>
             <div data-role="content">
+                <a href="#additem"><img src="img/CTA.png" style="width: 100%; margin-bottom: 20px;"/></a>
                 <div>
                     <ul data-inset="true" data-role="listview" role="listbox">
                         <li>
@@ -56,6 +57,8 @@ Term: 0313
                 <div data-role="navbar">
                     <ul>
                         <li><a href="#home">Home</a></li>
+                        <li><a href="#additem">Add Job</a></li>
+                        <li><a href="#disitem">Display Jobs</a></li>
                     </ul>
                 </div>
             </div>
@@ -64,16 +67,11 @@ Term: 0313
 
         <div id="additem" data-role="page">
             <div data-role="header" style="text-align: center;" data-position="fixed" data-id="mainhead">
-                <h1>WOrKganize</h1>
+                <img style="margin-top: 10px; margin-bottom: 5px;" src="img/logo.png"/>
             </div>
 
             <div data-role="content">
                 <h2 style="text-align: center;">Add Job!</h2>
-                <!--<fieldset class="ui-grid-a">
-                    <a href="#additem" data-inline="true" id="clear" ><div class="ui-block-a"><button>Clear All</button></div></a>
-                    <a href="#" data-inline="true" id="display" ><div class="ui-block-b"><button>Display</button></div></a>
-                    <a href="#additem" data-inline="true" style="display:none" id="reload"><div class="ui-block-b"><button>Add Jobs</button></div></a>
-                </fieldset>-->
                 <form action="#" method="post" id="additemform">
                     <div data-role="fieldcontain">
                         <label for="location">Where is job located?<span style="color: red">*</span></label>
@@ -112,6 +110,8 @@ Term: 0313
                 <div data-role="navbar">
                     <ul>
                         <li><a href="#home">Home</a></li>
+                        <li><a href="#additem">Add Job</a></li>
+                        <li><a href="#disitem">Display Jobs</a></li>
                     </ul>
                 </div>
             </div>
@@ -119,17 +119,20 @@ Term: 0313
 
         <div id="disitem" data-role="page">
             <div data-role="header" style="text-align: center;" data-position="fixed" data-id="mainhead">
-                <h1>WOrKganize</h1>
+                <img style="margin-top: 10px; margin-bottom: 5px;" src="img/logo.png"/>
             </div>
 
-            <div data-role="collapsible-set" data-content-theme="d" id="set">
-                <div data-role="collapsible" id="disjobs" data-collapsed="true"></div>
+            <div data-role="content" id="set">
+                <h2 style="text-align: center;">Display Jobs!</h2>
+
             </div>
 
             <div data-role="footer" data-position="fixed" data-id="mainfoot">
                 <div data-role="navbar">
                     <ul>
                         <li><a href="#home">Home</a></li>
+                        <li><a href="#additem">Add Job</a></li>
+                        <li><a href="#disitem">Display Jobs</a></li>
                     </ul>
                 </div>
             </div>
