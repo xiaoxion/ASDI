@@ -26,106 +26,116 @@ Term: 0313
         <script src="http://code.jquery.com/jquery-latest.min.js"></script>
         <script src="http://code.jquery.com/mobile/latest/jquery.mobile.min.js"></script>
 
+        <!-- jQuery Add-Ons -->
+        <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.0/jquery.validate.min.js"></script>
+
         <!-- Page Title -->
         <title> WOrKganize </title>
 
     </head>
     <body>
 
-        <section id="home" data-role="page">
+        <div id="home" data-role="page">
 
-            <header>
-                <h1>WOrganize</h1>
-                <p>A simple way to Organize</p>
-            </header>
-
-            <section>
+            <div data-role="header" style="text-align: center;" data-position="fixed" data-id="mainhead">
+                <h1>WOrKganize</h1>
+            </div>
+            <div data-role="content">
                 <div>
-                    <ul>
-                        <li>Browse</li>
+                    <ul data-inset="true" data-role="listview" role="listbox">
                         <li>
-                            <a href="#additem">Add Jobs</a>
+                            <a data-transition="slide" href="#additem">Add Job</a>
                         </li>
                         <li>
-                            <a href="#disitem">Display Jobs</a>
+                            <a data-transition="slide" href="#disitem">Display Jobs</a>
                         </li>
                     </ul>
                 </div>
-            </section>
-
-            <footer>
-                <ul>
-                    <li><a href="#home">Home</a></li>
-                </ul>
-            </footer>
-
-        </section>
-
-        <section id="additem" data-role="page">
-            <header>
-                <h1>Add Jobs</h1>
-            </header>
-
-            <section>
-                <fieldset>
+            </div>
+            <div data-role="footer" data-position="fixed" data-id="mainfoot">
+                <div data-role="navbar">
                     <ul>
-                        <li>
-                            <label for="location">Where is the Job Located?</label>
-                            <input type="text" id="location"/>
-                        </li>
-                        <li>
-                            <label for="notes">What Type of Work is it?</label>
-                        </li>
-                        <li>
-                            <label>What is the Priority?</label>
-                            <input type="radio" value="High" id="high" name="priority" /><label for="high">High</label>
-                            <input type="radio" checked value="Medium" id="medium" name="priority" /><label for="medium">Medium</label>
-                            <input type="radio" value="Low" id="low" name="priority" /><label for="low">Low</label>
-                        </li>
-                        <li>
-                            <label for="people">How many Workers to send?</label>
-                            <input type="range" id="people" min="1" max="5" name="workersToSend" />
-                        </li>
-                        <li>
-                            <label for="finishby">When to Finish?</label>
-                            <input type="date" name="finishBy" id="finishby" />
-                        </li>
-                        <li>
-                            <label for="notes">Notes for Job</label>
-                            <textarea id="notes" placeholder="Put any important Job Information here!"></textarea>
-                        </li>
+                        <li><a href="#home">Home</a></li>
                     </ul>
-                </fieldset>
-            </section>
+                </div>
+            </div>
 
-            <footer>
-                <ul>
-                    <li><a href="#home">Home</a></li>
-                </ul>
-            </footer>
-        </section>
+        </div>
 
-        <section id="disitem" data-role="page">
-            <header>
-                <h1>Display Jobs</h1>
-            </header>
+        <div id="additem" data-role="page">
+            <div data-role="header" style="text-align: center;" data-position="fixed" data-id="mainhead">
+                <h1>WOrKganize</h1>
+            </div>
 
-            <section>
-                // Information will be dynamically generated through JS
-                <ul>
+            <div data-role="content">
+                <h2 style="text-align: center;">Add Job!</h2>
+                <!--<fieldset class="ui-grid-a">
+                    <a href="#additem" data-inline="true" id="clear" ><div class="ui-block-a"><button>Clear All</button></div></a>
+                    <a href="#" data-inline="true" id="display" ><div class="ui-block-b"><button>Display</button></div></a>
+                    <a href="#additem" data-inline="true" style="display:none" id="reload"><div class="ui-block-b"><button>Add Jobs</button></div></a>
+                </fieldset>-->
+                <form action="#" method="post" id="additemform">
+                    <div data-role="fieldcontain">
+                        <label for="location">Where is job located?<span style="color: red">*</span></label>
+                        <input type="text" name="location" id="location" class="required" autofocus="autofocus" placeholder="Tampa, FL or Hidden Colony Apt"/>
+                    </div>
+                    <div data-role="fieldcontain" id="typeOfWork">
+                        <label for="worktype">What type of work is it?</label>
+                    </div>
+                    <div data-role="fieldcontain">
+                        <fieldset data-role="controlgroup" data-type="horizontal">
+                            <legend>What is the Priority?</legend>
+                            <input type="radio" value="Low" id="low" name="priority" /><label for="low">Low</label>
+                            <input type="radio" checked value="Medium" id="medium" name="priority" /><label for="medium">Medium</label>
+                            <input type="radio" value="High" id="high" name="priority" /><label for="high">High</label>
+                        </fieldset>
+                    </div>
+                    <div data-role="fieldcontain">
+                        <label for="people">How many Worker(s) to send?</label>
+                        <input type="range" id="people" value="1" min="1" max="5" name="workersToSend" />
+                    </div>
+                    <div data-role="fieldcontain">
+                        <label for="finishby">When to Finish?<span style="color: red">*</span></label>
+                        <input type="date" name="finishby" id="finishby" class="required"/>
+                    </div>
+                    <div data-role="fieldcontain">
+                        <label for="notes">Additional Notes<span style="color: red">*</span></label>
+                        <textarea id="notes" name="notes" placeholder="Put any important Job Information here!" class="required"></textarea>
+                    </div>
+                    <input type="submit" value="Submit" id="submit" data-theme="d" />
+                    <input type="reset" value="Cancel" id="cancel"/>
+                </form>
+                <p style="color: red;">* These form fields are required!</p>
+            </div>
 
-                </ul>
-            </section>
+            <div data-role="footer" data-position="fixed" data-id="mainfoot">
+                <div data-role="navbar">
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
-            <footer>
-                <ul>
-                    <li><a href="#home">Home</a></li>
-                </ul>
-            </footer>
-        </section>
+        <div id="disitem" data-role="page">
+            <div data-role="header" style="text-align: center;" data-position="fixed" data-id="mainhead">
+                <h1>WOrKganize</h1>
+            </div>
+
+            <div data-role="collapsible-set" data-content-theme="d" id="set">
+                <div data-role="collapsible" id="disjobs" data-collapsed="true"></div>
+            </div>
+
+            <div data-role="footer" data-position="fixed" data-id="mainfoot">
+                <div data-role="navbar">
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
         <!-- JavaScript -->
-        <script src="js/json.js" type="text/javascript"></script>
         <script src="js/main.js" type="text/javascript"></script>
     </body>
 </html>

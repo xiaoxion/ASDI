@@ -1,40 +1,25 @@
-$(document).ready(function(){
-    // Optimization
-    var ids = function(x) {
-        var element = document.getElementById(x);
-        return element;
-    };
-
-// Default Values
+$(function(){
     var maintenanceTypes = [ "Cleaning" , "Painting", "Electric" , "Plumbing"],
         priority;
-    errorMessage = ids('error');
+    //errorMessage = ids('error');
 
-// Add Category
-    var addCat = function() {
-        var selectForm = document.getElementById("aiform"),
-            selectLi = ids("typeOfWork");
-        selection = document.createElement("select");
-        selection.setAttribute( "id" , "worktype" );
-        selection.setAttribute("name" , "worktype");
-        selection.setAttribute("data-native-menu","false");
-        for(var i=0, n=maintenanceTypes.length ; i<n ; i++ ) {
-            var makeOption = document.createElement("option"),
-                text = maintenanceTypes[i];
-            makeOption.setAttribute("value", text);
-            makeOption.innerHTML = text;
-            selection.appendChild(makeOption);
+    //Add Category
+    var addCat = function(){
+        $("<select></select>")
+            .appendTo('#typeOfWork')
+            .attr("id","worktype")
+            .attr("name","worktype")
+            .attr("data-native-menu","false");
+        for(var i=0,n=maintenanceTypes.length; i<n ; i++){
+            $('<option></option>')
+                .appendTo('#worktype')
+                .attr("value", maintenanceTypes[i])
+                .text(maintenanceTypes[i])
         }
-        selectLi.appendChild(selection)
     };
-
     addCat();
 });
 
-$('#home').on('pageinit', function(){
-
-
-});
 
 $('#additem').on('pageinit', function(){
     var aiform = $('#additemform');
@@ -45,20 +30,9 @@ $('#additem').on('pageinit', function(){
             storeData(data);
         }
     });
-    //any other code needed for addItem page goes here
-
 });
 
-//The functions below can go inside or outside the pageinit function for the page in which it is needed.
-
-var autofillData = function (){
-
-};
-
-var getData = function(){
-
-};
-
+ /*
 var storeData = function(data){
     var d = new Date();
     keyGen = d.getTime();
@@ -73,11 +47,4 @@ var storeData = function(data){
     localStorage.setItem(keyGen , JSON.stringify(userInput));
     alert("Job Saved!");
 };
-
-var	deleteItem = function (){
-
-};
-
-var clearLocal = function(){
-
-};
+*/
