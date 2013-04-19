@@ -1,6 +1,17 @@
 // **Add Jobs page interactions**
 $(function(){
 
+    // Change to Display
+    $('<button></button>')
+        .prependTo('#addjobs')
+        .attr('data-role', 'button')
+        .attr('data-inline', 'true')
+        .text('Display Jobs')
+        .on('click', function(){
+            $('#addjobs').css('display', 'none');
+            $('#disitem').css('display', 'block');
+        });
+
     // Needed static variables
     var maintenanceTypes = [ "Cleaning" , "Painting", "Electric" , "Plumbing"],
         priority;
@@ -49,11 +60,10 @@ $(function(){
     // Delete All Button
     $('<button></button>')
         .appendTo('#set')
+        .attr('id', 'delall')
         .text("Delete All")
         .on('click', function(){
-            if (localStorage.length===0) {
-                alert("No Jobs to clear!");
-            } else {
+            if (localStorage.length !== 0) {
                 var areYouSure = confirm("Are you sure you want to clear all Jobs??");
                 if(areYouSure ==  true) {
                     localStorage.clear();
@@ -85,21 +95,17 @@ $(function(){
             }
 
             // Edit Link
-            $('<a></a>')
+            $('<button></button>')
                 .appendTo('#job'+i)
-                .attr('href', '#additem')
-                .attr('data-role', 'button')
                 .attr('data-inline', 'true')
                 .text("Edit Job")
                 .on('click',function(i){
                     var userInput = JSON.parse(localStorage.getItem(localStorage.key(i)));
-                    console.log(userInput);
-                    $('#location').value = userInput.location[1];
-                    console.log($('#location'));
-                    $('#worktype').value = userInput.worktype[1];
-                    $('#people').value = userInput.people[1];
-                    $('#finishby').value = userInput.finishby[1];
-                    $('#notes').value = userInput.notes[1];
+                    $('#location').attr('value', userInput.location[1]);
+                    $('#worktype').attr('value', userInput.worktype[1]);
+                    $('#people').attr('value', userInput.people[1]);
+                    $('#finishby').attr('value', userInput.finishby[1]);
+                    $('#notes').attr('value', userInput.notes[1]);
                     var rad = document.forms[0].priority;
                     for (var i=0 , len=rad.length; i<len; i++) {
                         if (rad[i].value == "High" && userInput.priority[1] == "High") {
@@ -110,15 +116,17 @@ $(function(){
                             rad[i].setAttribute('checked' , 'checked')
                         }
                     }
+                    $('#addjobs').css('display', 'block');
+                    $('#disitem').css('display', 'none');
                 });
 
             // Delete Link
-            $('<a></a>')
+            $('<button></button>')
                 .appendTo('#job'+i)
                 .attr('href', '#')
                 .attr('data-role', 'button')
                 .attr('data-inline', 'true')
-                .attr('data-icon', 'delete')
+                .text('Delete Job')
                 .on('click',function(i){
                         ask = confirm('Are you Sure?');
                     if (ask) {
@@ -129,6 +137,11 @@ $(function(){
                 });
         }
     } else {
-        $("#set").contents().text("No Jobs to Display!")
+        $("#set").contents().text("No Jobs to Display!");
+        $('#delall')
+            .text('Return to add Jobs!')
+            .on('click', function(){
+                location.reload();
+            })
     }
 });
