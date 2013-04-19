@@ -47,9 +47,6 @@ Term: 0313
                         <li>
                             <a data-transition="slide" href="#additem">Add Job</a>
                         </li>
-                        <li>
-                            <a data-transition="slide" href="#disitem">Display Jobs</a>
-                        </li>
                     </ul>
                 </div>
             </div>
@@ -58,7 +55,6 @@ Term: 0313
                     <ul>
                         <li><a href="#home">Home</a></li>
                         <li><a href="#additem">Add Job</a></li>
-                        <li><a href="#disitem">Display Jobs</a></li>
                     </ul>
                 </div>
             </div>
@@ -70,7 +66,7 @@ Term: 0313
                 <img style="margin-top: 10px; margin-bottom: 5px;" src="img/logo.png"/>
             </div>
 
-            <div data-role="content">
+            <div id="addjobs" data-role="content">
                 <h2 style="text-align: center;">Add Job!</h2>
                 <form action="#" method="post" id="additemform">
                     <div data-role="fieldcontain">
@@ -106,34 +102,22 @@ Term: 0313
                 <p style="color: red;">* These form fields are required!</p>
             </div>
 
-            <div data-role="footer" data-position="fixed" data-id="mainfoot">
-                <div data-role="navbar">
-                    <ul>
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#additem">Add Job</a></li>
-                        <li><a href="#disitem">Display Jobs</a></li>
-                    </ul>
+            <div id="disitem" data-role="content" style="display: none;">
+                <div data-role="header" style="text-align: center;" data-position="fixed" data-id="mainhead">
+                    <img style="margin-top: 10px; margin-bottom: 5px;" src="img/logo.png"/>
                 </div>
-            </div>
-        </div>
 
-        <div id="disitem" data-role="page">
-            <div data-role="header" style="text-align: center;" data-position="fixed" data-id="mainhead">
-                <img style="margin-top: 10px; margin-bottom: 5px;" src="img/logo.png"/>
-            </div>
+                <div data-role="content" id="set">
+                    <h2 style="text-align: center;">Display Jobs!</h2>
+                </div>
 
-            <div data-role="content" id="set">
-                <h2 style="text-align: center;">Display Jobs!</h2>
-
-            </div>
-
-            <div data-role="footer" data-position="fixed" data-id="mainfoot">
-                <div data-role="navbar">
-                    <ul>
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#additem">Add Job</a></li>
-                        <li><a href="#disitem">Display Jobs</a></li>
-                    </ul>
+                <div data-role="footer" data-position="fixed" data-id="mainfoot">
+                    <div data-role="navbar">
+                        <ul>
+                            <li><a href="#home">Home</a></li>
+                            <li><a href="#additem">Add Job</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
