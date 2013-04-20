@@ -73,6 +73,27 @@ $(function(){
             }
         });
 
+    // AJAX
+    $('<button></button>')
+        .appendTo('#set')
+        .text('Add AJAX Data')
+        .on('click', function(){
+            $.ajax({
+                url      : "data/data.json",
+                type     : "GET",
+                dataType : "json",
+                success  : function(data) {
+                    for(var i= 0, j=data.length; i<j ; i++){
+                    $('' +
+                        '<ul data-role="listview" data-inset="true">' +
+                            '<h2>' + data.location[1] + '</h2>'+
+                            '<li>' + + '</li>'+
+                        '</ul>').appendTo('#set')
+                    }
+                }
+            });
+        });
+
     // Generate Jobs from Local Storage
     if(localStorage.length > 0) {
         $('<ul></ul>')
@@ -102,20 +123,12 @@ $(function(){
                 .on('click',function(i){
                     var userInput = JSON.parse(localStorage.getItem(localStorage.key(i)));
                     $('#location').attr('value', userInput.location[1]);
-                    $('#worktype').attr('value', userInput.worktype[1]);
+                    $('#' + userInput.worktype[1]).prop('selected', true);
                     $('#people').attr('value', userInput.people[1]);
                     $('#finishby').attr('value', userInput.finishby[1]);
                     $('#notes').attr('value', userInput.notes[1]);
-                    var rad = document.forms[0].priority;
-                    for (var i=0 , len=rad.length; i<len; i++) {
-                        if (rad[i].value == "High" && userInput.priority[1] == "High") {
-                            rad[i].setAttribute('checked' , 'checked')
-                        } else if (rad[i].value == "Medium" && userInput.priority[1] == "Medium") {
-                            rad[i].setAttribute('checked' , 'checked')
-                        } else if (rad[i].value == "Low" && userInput.priority[1] == "Low") {
-                            rad[i].setAttribute('checked' , 'checked')
-                        }
-                    }
+                    $('option[value=' + userInput.worktype[1] + ']').prop('checked', true);
+
                     $('#addjobs').css('display', 'block');
                     $('#disitem').css('display', 'none');
                 });
@@ -137,7 +150,7 @@ $(function(){
                 });
         }
     } else {
-        $("#set").contents().text("No Jobs to Display!");
+        $("#heads").text("No Jobs to Display!");
         $('#delall')
             .text('Return to add Jobs!')
             .on('click', function(){
