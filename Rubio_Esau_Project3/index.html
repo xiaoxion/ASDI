@@ -45,7 +45,7 @@ Term: 0313
                 <div>
                     <ul data-inset="true" data-role="listview" role="listbox">
                         <li>
-                            <a data-transition="slide" href="#additem">Add Job</a>
+                            <a data-transition="slide" href="#additem">Get Started</a>
                         </li>
                     </ul>
                 </div>
@@ -54,7 +54,6 @@ Term: 0313
                 <div data-role="navbar">
                     <ul>
                         <li><a href="#home">Home</a></li>
-                        <li><a href="#additem">Add Job</a></li>
                     </ul>
                 </div>
             </div>
@@ -64,17 +63,21 @@ Term: 0313
         <div id="additem" data-role="page">
             <div data-role="header" style="text-align: center;" data-position="fixed" data-id="mainhead">
                 <img style="margin-top: 10px; margin-bottom: 5px;" src="img/logo.png"/>
+                <div data-role="navbar">
+                    <ul>
+                        <li><a id="toAdd" href="#" class="ui-btn-active ui-state-persist">Add Job</a></li>
+                        <li><a id="toDis" href="#">Display Jobs</a></li>
+                    </ul>
+                </div>
             </div>
 
             <div id="addjobs" data-role="content">
-                <h2 style="text-align: center;">Add Job!</h2>
                 <form action="#" method="post" id="additemform">
                     <div data-role="fieldcontain">
                         <label for="location">Where is job located?<span style="color: red">*</span></label>
                         <input type="text" name="location" id="location" class="required" autofocus="autofocus" placeholder="Tampa, FL or Hidden Colony Apt"/>
                     </div>
                     <div data-role="fieldcontain" id="typeOfWork">
-                        <label for="worktype">What type of work is it?</label>
                     </div>
                     <div data-role="fieldcontain">
                         <fieldset data-role="controlgroup" data-type="horizontal">
@@ -103,12 +106,8 @@ Term: 0313
             </div>
 
             <div id="disitem" data-role="content" style="display: none;">
-                <div data-role="header" style="text-align: center;" data-position="fixed" data-id="mainhead">
-                    <img style="margin-top: 10px; margin-bottom: 5px;" src="img/logo.png"/>
-                </div>
-
                 <div data-role="content" id="set">
-                    <h2 id="heads" style="text-align: center;">Display Jobs!</h2>
+                    <ul data-role="listview" data-inset="true" id="listofjobs"></ul>
                 </div>
             </div>
 
@@ -116,7 +115,6 @@ Term: 0313
                 <div data-role="navbar">
                     <ul>
                         <li><a href="#home">Home</a></li>
-                        <li><a href="#additem">Add Job</a></li>
                     </ul>
                 </div>
             </div>

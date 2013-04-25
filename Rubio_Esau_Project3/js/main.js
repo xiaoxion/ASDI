@@ -1,20 +1,28 @@
-// **Add Jobs page interactions**
 $(function(){
 
-    // Change to Display
-    $('<button></button>')
-        .prependTo('#addjobs')
-        .attr('data-role', 'button')
-        .attr('data-inline', 'true')
-        .text('Display Jobs')
-        .on('click', function(){
-            $('#addjobs').css('display', 'none');
-            $('#disitem').css('display', 'block');
+
+    // Change to Add Item
+    $('#toAdd').on('click', function(){
+            $('#addjobs').css('display', 'block');
+            $('#disitem').css('display', 'none');
         });
+    // Change to Display Items
+    $('#toDis').on('click', function(){
+        $('#addjobs').css('display', 'none');
+        $('#disitem').css('display', 'block');
+    });
 
     // Needed static variables
     var maintenanceTypes = [ "Cleaning" , "Painting", "Electric" , "Plumbing"],
-        priority;
+        priority,
+        keyGen;
+
+    // **Add Jobs page interactions**
+    // Add Select Label
+    $("<label></label>")
+        .appendTo('#typeOfWork')
+        .prop('for', 'worktype')
+        .text('What type of work is it?');
 
     // Add Select Option
     $("<select></select>")
@@ -29,37 +37,30 @@ $(function(){
             .text(maintenanceTypes[i])
     }
 
-    // Validate the Data
+    // Validate the Data & Store
     $('#additemform').validate({
         invalidHandler: function(form, validator) {},
         submitHandler: function() {
-            storeData($('#additemform').serializeArray());
+            // Store Data
+            var data = $('#additemform').serializeArray(),
+                d = new Date(),
+                keyGen = d.getTime(),
+                userInput = {};
+            userInput.location = ["Location:" , data[0].value ];
+            userInput.worktype = ["Work Type:" , data[1].value ];
+            userInput.priority = ["Priority:" , data[2].value ];
+            userInput.people   = ["Workers Sent:" , data[3].value ];
+            userInput.finishby = ["Finish By:" , data[4].value ];
+            userInput.notes    = ["Notes:" , data[5].value ];
+            localStorage.setItem(keyGen , JSON.stringify(userInput));
+            location.reload()
         }
     });
 
-    //Store the Data
-    var storeData = function(data){
-        var d = new Date();
-        keyGen = d.getTime();
-        var userInput = {};
-        userInput.location = ["Location:" , data[0].value ];
-        userInput.worktype = ["Work Type:" , data[1].value ];
-        userInput.priority = ["Priority:" , data[2].value ];
-        userInput.people   = ["Workers Sent:" , data[3].value ];
-        userInput.finishby = ["Finish By:" , data[4].value ];
-        userInput.notes    = ["Notes:" , data[5].value ];
-        localStorage.setItem(keyGen , JSON.stringify(userInput));
-        alert("Job Saved!");
-        location.reload();
-    };
-});
-
-// **Display Jobs Page Interactions**
-$(function(){
-
+    // **Display Jobs Page Interactions**
     // Delete All Button
     $('<button></button>')
-        .appendTo('#set')
+        .insertBefore('#listofjobs')
         .attr('id', 'delall')
         .text("Delete All")
         .on('click', function(){
@@ -75,7 +76,7 @@ $(function(){
 
     // AJAX
     $('<button></button>')
-        .appendTo('#set')
+        .insertBefore('#listofjobs')
         .text('Add AJAX Data')
         .on('click', function(){
             $.ajax({
@@ -83,26 +84,22 @@ $(function(){
                 type     : "GET",
                 dataType : "json",
                 success  : function(data) {
-                    for(var i= 0, j=data.length; i<j ; i++){
-                    $('' +
-                        '<ul data-role="listview" data-inset="true">' +
-                            '<h2>' + data.location[1] + '</h2>'+
-                            '<li>' + + '</li>'+
-                        '</ul>').appendTo('#set')
+                    for(var i=0, j=data.length; i<j ; i++){
+                        $('<h2>' + data.location[1] + '</h2>'+
+                            '<li>' + + '</li>' +
+                            '<li>' + + '</li>' +
+                            '<li>' + + '</li>').appendTo('#listofjobs')
                     }
+
                 }
-            });
+            })
         });
 
     // Generate Jobs from Local Storage
     if(localStorage.length > 0) {
-        $('<ul></ul>')
-            .appendTo('#set')
-            .attr('data-role', 'listview')
-            .attr('data-inset', 'true')
-            .attr('id',"listofjobs");
         for(var i=0, l=localStorage.length; i<l; i++){
-            var parsed = JSON.parse(localStorage.getItem(localStorage.key(i)));
+            var key = localStorage.key(i),
+                parsed = JSON.parse(localStorage.getItem(key));
             $('<li></li>')
                 .appendTo("#listofjobs")
                 .attr("id","job"+i);
@@ -118,34 +115,37 @@ $(function(){
             // Edit Link
             $('<button></button>')
                 .appendTo('#job'+i)
+                .attr('key', key)
                 .attr('data-inline', 'true')
                 .text("Edit Job")
-                .on('click',function(i){
-                    var userInput = JSON.parse(localStorage.getItem(localStorage.key(i)));
-                    $('#location').attr('value', userInput.location[1]);
-                    $('#' + userInput.worktype[1]).prop('selected', true);
-                    $('#people').attr('value', userInput.people[1]);
-                    $('#finishby').attr('value', userInput.finishby[1]);
-                    $('#notes').attr('value', userInput.notes[1]);
-                    $('option[value=' + userInput.worktype[1] + ']').prop('checked', true);
+                .on('click',function(info){
+                    var userInput = JSON.parse(localStorage.getItem($(info.currentTarget).attr('key')));
+                    $('#location').prop('value', userInput.location[1]);
+                    $('#' + userInput.priority[1].toLowerCase()).attr('checked', true);
+                    $('#people').prop('value', userInput.people[1]);
+                    $('#finishby').prop('value', userInput.finishby[1]);
+                    $('#notes').prop('value', userInput.notes[1]);
+                    $('option[value=' + userInput.worktype[1] + ']').prop('selected', true);
 
                     $('#addjobs').css('display', 'block');
                     $('#disitem').css('display', 'none');
+
+                    var keyGen = $(info.currentTarget).attr('key');
                 });
 
             // Delete Link
             $('<button></button>')
                 .appendTo('#job'+i)
-                .attr('href', '#')
+                .attr('key', key)
                 .attr('data-role', 'button')
                 .attr('data-inline', 'true')
                 .text('Delete Job')
-                .on('click',function(i){
+                .on('click',function(info){
+                    var
                         ask = confirm('Are you Sure?');
                     if (ask) {
-                        localStorage.removeItem(localStorage.key(i));
+                        localStorage.removeItem($(info.currentTarget).attr('key'));
                         location.reload();
-                        alert('Job Deleted!')
                     }
                 });
         }
@@ -154,7 +154,10 @@ $(function(){
         $('#delall')
             .text('Return to add Jobs!')
             .on('click', function(){
-                location.reload();
+                $('#addjobs').css('display', 'block');
+                $('#disitem').css('display', 'none');
+                $('#toAdd').addClass('ui-btn-active ui-state-persist');
+                $('#toDis').removeClass('ui-btn-active ui-state-persist');
             })
     }
 });
