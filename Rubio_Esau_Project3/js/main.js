@@ -84,13 +84,15 @@ $(function(){
                 type     : "GET",
                 dataType : "json",
                 success  : function(data) {
-                    for(var i=0, j=data.length; i<j ; i++){
-                        $('<h2>' + data.location[1] + '</h2>'+
-                            '<li>' + + '</li>' +
-                            '<li>' + + '</li>' +
-                            '<li>' + + '</li>').appendTo('#listofjobs')
-                    }
-
+                    console.log(data);
+                    $('<h2>' + data.location[1] + '</h2>'+
+                        '<li>' + data.location[0] + ' ' + data.location[1] + '</li>' +
+                        '<li>' + data.worktype[0] + ' ' + data.worktype[1] + '</li>' +
+                        '<li>' + data.priority[0] + ' ' + data.priority[1] + '</li>' +
+                        '<li>' + data.people[0] + ' ' + data.people[1] + '</li>' +
+                        '<li>' + data.finishby[0] + ' ' + data.finishby[1] + '</li>' +
+                        '<li>' + data.notes[0] + ' ' + data.notes[1] + '</li>'
+                    ).appendTo('#listofjobs')
                 }
             })
         });
