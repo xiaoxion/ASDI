@@ -93,6 +93,9 @@ $(function(){
                         '<li>' + data.finishby[0] + ' ' + data.finishby[1] + '</li>' +
                         '<li>' + data.notes[0] + ' ' + data.notes[1] + '</li>'
                     ).appendTo('#listofjobs')
+                },
+                error    : function(){
+                    alert("You suck at life")
                 }
             })
         });
