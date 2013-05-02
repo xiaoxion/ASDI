@@ -2,7 +2,7 @@
 
 <!--
 ASDI
-Project 1: WOrKganize
+Project 5: WOrKganize
 Author: Esau Rubio
 Term: 0313
 -->
@@ -25,6 +25,7 @@ Term: 0313
         <link rel="stylesheet" href="http://code.jquery.com/mobile/latest/jquery.mobile.structure.min.css" />
         <script src="http://code.jquery.com/jquery-latest.min.js"></script>
         <script src="http://code.jquery.com/mobile/latest/jquery.mobile.min.js"></script>
+        <script src="jquery.couch.js"></script>
 
         <!-- jQuery Add-Ons -->
         <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.0/jquery.validate.min.js"></script>
@@ -45,7 +46,7 @@ Term: 0313
                 <div>
                     <ul data-inset="true" data-role="listview" role="listbox">
                         <li>
-                            <a data-transition="slide" href="#additem">Get Started</a>
+                            <a href="#additem">Get Started</a>
                         </li>
                     </ul>
                 </div>
@@ -65,8 +66,8 @@ Term: 0313
                 <img style="margin-top: 10px; margin-bottom: 5px;" src="logo.png"/>
                 <div data-role="navbar">
                     <ul>
-                        <li><a id="toAdd" href="#" class="ui-btn-active ui-state-persist">Add Job</a></li>
-                        <li><a id="toDis" href="#">Display Jobs</a></li>
+                        <li><a href="#additem" class="ui-btn-active ui-state-persist">Add Job</a></li>
+                        <li><a href="jobs.html">Display Jobs</a></li>
                     </ul>
                 </div>
             </div>
@@ -103,12 +104,6 @@ Term: 0313
                     <input type="reset" value="Cancel" id="cancel"/>
                 </form>
                 <p style="color: red;">* These form fields are required!</p>
-            </div>
-
-            <div id="disitem" data-role="content" style="display: none;">
-                <div data-role="content" id="set">
-                    <ul data-role="listview" data-inset="true" id="listofjobs"></ul>
-                </div>
             </div>
 
             <div data-role="footer" data-position="fixed" data-id="mainfoot">

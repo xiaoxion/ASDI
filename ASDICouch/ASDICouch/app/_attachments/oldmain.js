@@ -1,15 +1,11 @@
-/*
-* Esau Rubio
-* Workganize
-* 0413
-*/
+$(function(){
 
-//Global Variables
-var maintenanceTypes = [ "Cleaning" , "Painting", "Electric" , "Plumbing"],
-    priority,
-    dataKey;
+    // Needed static variables
+    var maintenanceTypes = [ "Cleaning" , "Painting", "Electric" , "Plumbing"],
+        priority,
+        keyGen;
 
-$(document).on('pageinit','#additem',function(){
+    // **Add Jobs page interactions**
     // Add Select Label
     $("<label></label>")
         .appendTo('#typeOfWork')
@@ -29,22 +25,15 @@ $(document).on('pageinit','#additem',function(){
             .text(maintenanceTypes[i])
     }
 
-    // Refresh Style
-    $("#additemform").trigger("create");
-
     // Validate the Data & Store
     $('#additemform').validate({
         invalidHandler: function(form, validator) {},
         submitHandler: function() {
             // Store Data
             var data = $('#additemform').serializeArray(),
+                d = new Date(),
+                keyGen = d.getTime(),
                 userInput = {};
-            if(!dataKey){
-                var d = new Date(),
-                    keyGen = d.getTime();
-            } else {
-                var keyGen = dataKey
-            }
             userInput.location = ["Location:" , data[0].value ];
             userInput.worktype = ["Work Type:" , data[1].value ];
             userInput.priority = ["Priority:" , data[2].value ];
@@ -52,12 +41,11 @@ $(document).on('pageinit','#additem',function(){
             userInput.finishby = ["Finish By:" , data[4].value ];
             userInput.notes    = ["Notes:" , data[5].value ];
             localStorage.setItem(keyGen , JSON.stringify(userInput));
-            location.reload();
+            location.reload()
         }
     });
-});
 
-$(document).on('pageinit','#display',function(){
+    // **Display Jobs Page Interactions**
     // Delete All Button
     $('<button></button>')
         .insertBefore('#listofjobs')
@@ -87,16 +75,16 @@ $(document).on('pageinit','#display',function(){
                 success  : function(ajax) {
                     var data = ajax.rows[0].value;
                     for(var n in data){
-                        $('<li>'+
-                            '<h2>' + data[n].location[1] + '</h2>'+
-                            '<p>' + data[n].location[0] + ' ' + data[n].location[1] + '</p>' +
-                            '<p>' + data[n].worktype[0] + ' ' + data[n].worktype[1] + '</p>' +
-                            '<p>' + data[n].priority[0] + ' ' + data[n].priority[1] + '</p>' +
-                            '<p>' + data[n].people[0] + ' ' + data[n].people[1] + '</p>' +
-                            '<p>' + data[n].finishby[0] + ' ' + data[n].finishby[1] + '</p>' +
-                            '<p>' + data[n].notes[0] + ' ' + data[n].notes[1] + '</p>' +
-                            '</li>'
-                        ).appendTo('#listofjobs')}
+                    $('<li>'+
+                        '<h2>' + data[n].location[1] + '</h2>'+
+                        '<p>' + data[n].location[0] + ' ' + data[n].location[1] + '</p>' +
+                        '<p>' + data[n].worktype[0] + ' ' + data[n].worktype[1] + '</p>' +
+                        '<p>' + data[n].priority[0] + ' ' + data[n].priority[1] + '</p>' +
+                        '<p>' + data[n].people[0] + ' ' + data[n].people[1] + '</p>' +
+                        '<p>' + data[n].finishby[0] + ' ' + data[n].finishby[1] + '</p>' +
+                        '<p>' + data[n].notes[0] + ' ' + data[n].notes[1] + '</p>' +
+                        '</li>'
+                    ).appendTo('#listofjobs')}
                     $('#listofjobs').listview('refresh');
                     $('#addAJAX').remove()
                 },
@@ -165,7 +153,10 @@ $(document).on('pageinit','#display',function(){
         $('#delall')
             .text('Return to add Jobs!')
             .on('click', function(){
-                window.location = index.hmtl
+                $('#addjobs').css('display', 'block');
+                $('#disitem').css('display', 'none');
+                $('#toAdd').addClass('ui-btn-active ui-state-persist');
+                $('#toDis').removeClass('ui-btn-active ui-state-persist');
             })
     }
 });

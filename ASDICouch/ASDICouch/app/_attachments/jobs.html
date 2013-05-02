@@ -1,0 +1,56 @@
+<!doctype html>
+
+<!--
+ASDI
+Project 5: WOrKganize
+Author: Esau Rubio
+Term: 0313
+-->
+
+<html>
+    <head>
+        <!-- Character set and Other Search Engine Optimizations -->
+        <meta charset="utf-8" />
+        <meta name="description" content="Work Organizer for small to medium sized businesses." />
+        <meta name="keyword" content="Work, Organizer, Simple" />
+        <meta name="robots" content="index, follow" />
+        <meta name="viewport" content="user-scalable=no, width=device-width">
+
+        <!-- Handheld specifications -->
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320"/>
+
+
+        <!-- Page Title -->
+        <title> Jobs </title>
+
+    </head>
+    <body>
+
+        <div id="display" data-role="page">
+            <div data-role="header" style="text-align: center;" data-position="fixed" data-id="mainhead">
+                <img style="margin-top: 10px; margin-bottom: 5px;" src="logo.png"/>
+                <div data-role="navbar">
+                    <ul>
+                        <li><a href="index.html#additem">Add Job</a></li>
+                        <li><a href="#display" class="ui-btn-active ui-state-persist">Display Jobs</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="disitem" data-role="content" style="display: none;">
+                <div data-role="content" id="set">
+                    <ul data-role="listview" data-inset="true" id="listofjobs"></ul>
+                </div>
+            </div>
+
+            <div data-role="footer" data-position="fixed" data-id="mainfoot">
+                <div data-role="navbar">
+                    <ul>
+                        <li><a href="index.html#home">Home</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
