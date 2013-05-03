@@ -6,8 +6,7 @@
 
 //Global Variables
 var maintenanceTypes = [ "Cleaning" , "Painting", "Electric" , "Plumbing"],
-    priority,
-    dataKey;
+    priority;
 
 $(document).on('pageinit','#additem',function(){
     // Add Select Label
@@ -32,27 +31,37 @@ $(document).on('pageinit','#additem',function(){
     // Refresh Style
     $("#additemform").trigger("create");
 
-    // Validate the Data & Store
+    // Validate the Data & Store & Check Against Data
     $('#additemform').validate({
         invalidHandler: function(form, validator) {},
         submitHandler: function() {
             // Store Data
-            var data = $('#additemform').serializeArray(),
-                userInput = {};
-            if(!dataKey){
-                var d = new Date(),
-                    keyGen = d.getTime();
-            } else {
-                var keyGen = dataKey
+            var userInput = {};
+            if($('form').attr('id') !== 'additemform'){
+                $.couch.db('workganize').openDoc($('form').attr('id'), {
+                    success: function(data){
+                        var userInput = {
+                            _id: data._id,
+                            _rev: data._rev
+                        };
+                    },
+                    error: function(status){
+                        console.log(status)
+                    }
+                });
             }
-            userInput.location = ["Location:" , data[0].value ];
-            userInput.worktype = ["Work Type:" , data[1].value ];
-            userInput.priority = ["Priority:" , data[2].value ];
-            userInput.people   = ["Workers Sent:" , data[3].value ];
-            userInput.finishby = ["Finish By:" , data[4].value ];
-            userInput.notes    = ["Notes:" , data[5].value ];
-            localStorage.setItem(keyGen , JSON.stringify(userInput));
-            location.reload();
+            console.log(userInput);
+            var data = $('form').serializeArray();
+                userInput.location = ["Location:" , data[0].value ];
+                userInput.worktype = ["Work Type:" , data[1].value ];
+                userInput.priority = ["Priority:" , data[2].value ];
+                userInput.people   = ["Workers Sent:" , data[3].value ];
+                userInput.finishby = ["Finish By:" , data[4].value ];
+                userInput.notes    = ["Notes:" , data[5].value ];
+            $.couch.db('workganize').saveDoc(userInput, {
+                success: function(data) {
+                }
+            });
         }
     });
 });
@@ -81,7 +90,7 @@ $(document).on('pageinit','#display',function(){
         .text('Add AJAX Data')
         .on('click', function(){
             $.ajax({
-                url      : "_view/_dummy",
+                url      : "_view/dummy",
                 type     : "GET",
                 dataType : "json",
                 success  : function(ajax) {
@@ -106,66 +115,94 @@ $(document).on('pageinit','#display',function(){
             })
         });
 
-    // Generate Jobs from Local Storage
-    if(localStorage.length > 0) {
-        for(var i=0, l=localStorage.length; i<l; i++){
-            var key = localStorage.key(i),
-                parsed = JSON.parse(localStorage.getItem(key));
-            $('<li></li>')
-                .appendTo("#listofjobs")
-                .attr("id","job"+i);
-            $('<h2></h2>')
-                .appendTo("#job"+i)
-                .text(parsed.location[1]);
-            for(var n in parsed){
-                $('<p></p>')
-                    .appendTo("#job"+i)
-                    .text(parsed[n][0] + " " + parsed[n][1]);
-            }
-
-            // Edit Link
-            $('<button></button>')
-                .appendTo('#job'+i)
-                .attr('key', key)
-                .attr('data-inline', 'true')
-                .text("Edit Job")
-                .on('click',function(info){
-                    var userInput = JSON.parse(localStorage.getItem($(info.currentTarget).attr('key')));
-                    $('#location').prop('value', userInput.location[1]);
-                    $('#' + userInput.priority[1].toLowerCase()).attr('checked', true);
-                    $('#people').prop('value', userInput.people[1]);
-                    $('#finishby').prop('value', userInput.finishby[1]);
-                    $('#notes').prop('value', userInput.notes[1]);
-                    $('option[value=' + userInput.worktype[1] + ']').prop('selected', true);
-
-                    $('#addjobs').css('display', 'block');
-                    $('#disitem').css('display', 'none');
-
-                    var keyGen = $(info.currentTarget).attr('key');
-                });
-
-            // Delete Link
-            $('<button></button>')
-                .appendTo('#job'+i)
-                .attr('key', key)
-                .attr('data-role', 'button')
-                .attr('data-inline', 'true')
-                .text('Delete Job')
-                .on('click',function(info){
-                    var
-                        ask = confirm('Are you Sure?');
-                    if (ask) {
-                        localStorage.removeItem($(info.currentTarget).attr('key'));
-                        location.reload();
+    // Generate Jobs from Couch DB
+    $.couch.db('workganize').view("workganize/actual", {
+        success: function(data) {
+            if(data.total_rows>0) {
+                for(var i=0, l=data.rows.length; i<l ; i++) {
+                    var parsed = data.rows[i].value;
+                    $('<div></div>')
+                        .appendTo("#listofjobs")
+                        .attr('data-role','collapsible')
+                        .attr("id","job"+i);
+                    $('<h3></h3>')
+                        .appendTo("#job"+i)
+                        .text(parsed.location[1]);
+                    for(var n in parsed){
+                        if(n == 'keyGen'){} else {
+                            $('<p></p>')
+                                .appendTo("#job"+i)
+                                .text(parsed[n][0] + " " + parsed[n][1]);
+                        }
                     }
-                });
-        }
-    } else {
-        $("#heads").text("No Jobs to Display!");
-        $('#delall')
-            .text('Return to add Jobs!')
-            .on('click', function(){
-                window.location = index.hmtl
-            })
-    }
+                    $('#listofjobs').trigger('create');
+                    // Edit Link
+                    $('<button></button>')
+                        .appendTo('#job'+i)
+                        .prop('id',i)
+                        .attr('data-role', 'button')
+                        .attr('data-inline', 'true')
+                        .text("Edit Job")
+                        .button()
+                        .on('click',function(info){
+                            var userInput = data.rows[$(info.currentTarget).attr('id')].value;
+                            window.location.assign('#additem');
+                            $('#location').prop('value', userInput.location[1]);
+                            $('#' + userInput.priority[1].toLowerCase()).prop('checked', true);
+                            $("input[type='radio']").checkboxradio("refresh");
+                            $('#people').prop('value', userInput.people[1]).slider('refresh');
+                            $('#finishby').prop('value', userInput.finishby[1]);
+                            $('#notes').prop('value', userInput.notes[1]);
+                            $('#worktype').val(userInput.worktype[1]).selectmenu('refresh');
+                            $('#additemform').removeAttr('id').attr('id',data.rows[$(info.currentTarget).attr('id')].id);
+                        });
+
+                    // Delete
+                    $('<button></button>')
+                        .appendTo('#job'+i)
+                        .prop('id', i)
+                        .attr('data-role', 'button')
+                        .attr('data-inline', 'true')
+                        .text('Delete Job')
+                        .button()
+                        .on('click',function(info){
+                            var
+                                ask = confirm('Are you Sure?');
+                            if (ask) {
+                                console.log(data.rows[$(info.currentTarget).attr('id')].id);
+                                $.couch.db('workganize').openDoc(data.rows[$(info.currentTarget).attr('id')].id, {
+                                    success: function(info){
+                                        var userInput = {
+                                            _id: info._id,
+                                            _rev: info._rev
+                                        };
+                                        $.couch.db('workganize').removeDoc(userInput, {
+                                            success: function(data) {
+                                                console.log(data);
+                                            },
+                                            error: function(status) {
+                                                console.log(status);
+                                            }
+                                        })
+                                    },
+                                    error: function(status){
+                                        console.log(status)
+                                    }
+                                });
+                                window.location.assign('#additem');
+                            }
+                        });
+                }
+            } else {
+                $("#heads").text("No Jobs to Display!");
+                $('#delall')
+                    .text('Return to add Jobs!')
+                    .on('click', function(){
+                        window.location = "index.html#additem"
+                    })
+            }
+        },
+        error: function(status){console.log(status)}
+    });
+    $('#set').trigger('create');
 });
